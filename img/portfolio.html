@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ren Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--black:#080808;--dark:#0e0e0e;--card:#141414;--border:#1e1e1e;
+--accent:#e63946;--accent-glow:rgba(230,57,70,.15);
+--text:#f1f1f1;--text-dim:#888;--text-muted:#555;
+--font:'Inter',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px;background:var(--black)}
+body{font-family:var(--font);color:var(--text);background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(8,8,8,.7);border-bottom:1px solid rgba(255,255,255,.04);transition:all .4s}
+.nav-logo{font-weight:600;font-size:.85rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text)}
+.nav-logo b{color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-links a{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;padding:.65rem 1.6rem;border:1px solid var(--accent);color:var(--accent);border-radius:2px;transition:all .3s;cursor:pointer}
+.nav-cta:hover{background:var(--accent);color:#fff}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden;padding:6rem 2rem 4rem}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:'';position:absolute;top:20%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
+.hero-bg::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--black),transparent)}
+@keyframes pulse{0%,100%{opacity:.4;transform:translate(-50%,-50%) scale(1)}50%{opacity:.7;transform:translate(-50%,-50%) scale(1.15)}}
+.hero-badge{z-index:2;font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(230,57,70,.3);padding:.8rem 1.2rem;margin-bottom:2.1rem;border-radius:2px;opacity:0;animation:fadeUp .8s .3s forwards;display:block;text-align:center;line-height:1.2;white-space:nowrap}
+.hero-title{z-index:2;font-weight:900;font-size:clamp(5.4rem,18.5vw,14rem);line-height:.82;text-align:center;letter-spacing:-.05em;opacity:0;animation:fadeUp .8s .5s forwards;color:var(--text);width:100%;display:flex;flex-direction:column;align-items:center}
+.hero-title .line{display:block}
+.hero-title .accent{color:var(--accent)}
+.hero-badge span{display:inline}
+.hero-badge span+span::before{content:' \00b7 ';color:var(--accent)}
+.hero-scroll{z-index:2;position:absolute;bottom:3rem;display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:0;animation:fadeUp .8s 1s forwards}
+.hero-scroll span{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollPulse 2s infinite}
+@keyframes scrollPulse{0%{opacity:1;height:40px}50%{opacity:.4;height:20px}100%{opacity:1;height:40px}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+section{padding:7rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:.7rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
+.section-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1.1;margin-bottom:2.5rem;letter-spacing:-.02em}
+.section-title .dim{color:var(--text-muted)}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text{font-size:1.05rem;line-height:1.8;color:var(--text-dim);font-weight:300}
+.about-text p+p{margin-top:1.5rem}
+.about-quote{font-style:italic;font-size:1.1rem;color:var(--text);border-left:2px solid var(--accent);padding-left:1.5rem;margin-top:2rem;line-height:1.7}
+.about-photo{display:flex;justify-content:center;align-items:start;margin-top:-52px}
+.about-photo img{width:100%;max-width:380px;border-radius:12px;border:none;background:none}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding-top:1rem}
+.stat{border:1px solid var(--border);padding:2rem;border-radius:4px;transition:border-color .3s}
+.stat:hover{border-color:var(--accent)}
+.stat-number{font-size:2.5rem;font-weight:900;color:var(--text);line-height:1}
+.stat-number b{color:var(--accent)}
+.stat-desc{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-top:.5rem}
+
+.work-grid{display:flex;flex-direction:column;gap:3rem}
+.work-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:all .4s;position:relative}
+.branding-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:all .4s;position:relative}
+.work-card:hover{border-color:rgba(230,57,70,.4);transform:translateY(-4px)}
+.branding-card:hover{border-color:rgba(230,57,70,.4);transform:translateY(-4px)}
+.work-img-wrap{overflow:hidden;position:relative;min-height:340px;background:var(--card)}
+.work-img{width:100%;height:100%;object-fit:cover;object-position:top}
+.work-card:hover .work-img{}
+.work-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--card) 0%,#1a1a1a 100%);position:relative;overflow:hidden}
+.work-placeholder::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:var(--accent-glow);top:50%;left:50%;transform:translate(-50%,-50%)}
+.work-placeholder .number{font-size:8rem;font-weight:900;color:rgba(255,255,255,.04);position:absolute}
+.work-content{padding:3rem;display:flex;flex-direction:column;justify-content:center}
+.work-role{font-size:.7rem;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.work-name{font-size:1.8rem;font-weight:700;margin-bottom:1rem;line-height:1.2}
+.work-desc{color:var(--text-dim);font-weight:300;line-height:1.7;font-size:.95rem}
+.work-tools{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.work-tools span{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .8rem;border:1px solid var(--border);border-radius:2px;color:var(--text-muted);transition:all .3s}
+.work-card:hover .work-tools span{border-color:rgba(230,57,70,.2);color:var(--text-dim)}
+.branding-card:hover .work-tools span{border-color:rgba(230,57,70,.2);color:var(--text-dim)}
+.work-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-top:2rem;transition:gap .3s}
+.work-link:hover{gap:1rem}
+.work-link svg{width:16px;height:16px}
+
+.skills-layout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
+.skill-group{border:1px solid var(--border);padding:2.5rem;border-radius:4px;transition:all .4s}
+.skill-group:hover{border-color:rgba(230,57,70,.3);background:rgba(230,57,70,.02)}
+.skill-group-title{font-size:.7rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+.skill-item{padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.03);font-weight:300;color:var(--text-dim);font-size:.95rem;transition:color .3s}
+.skill-item:last-child{border-bottom:none}
+.skill-group:hover .skill-item{color:var(--text)}
+.tool-row{display:flex;justify-content:space-between;align-items:center}
+.stars{color:var(--accent);font-size:.75rem;letter-spacing:2px}
+
+.achievements{background:var(--dark)}
+.achieve-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:1rem}
+.achieve-card{padding:2.5rem;border:1px solid var(--border);border-radius:4px;position:relative;overflow:hidden;transition:all .4s}
+.achieve-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.achieve-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.achieve-card:hover::before{transform:scaleX(1)}
+.achieve-icon{margin-bottom:1.2rem;width:40px;height:40px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.achieve-icon svg{width:18px;height:18px}
+.achieve-name{font-size:1.2rem;font-weight:700;margin-bottom:.8rem}
+.achieve-desc{color:var(--text-dim);font-weight:300;line-height:1.7;font-size:.9rem}
+
+.timeline{position:relative;padding-left:3rem}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),var(--border),transparent)}
+.timeline-item{position:relative;padding-bottom:3.5rem}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-item::before{content:'';position:absolute;left:-3rem;top:.5rem;width:9px;height:9px;border-radius:50%;background:var(--accent);border:2px solid var(--black);box-shadow:0 0 0 4px rgba(230,57,70,.15)}
+.timeline-role{font-size:1.3rem;font-weight:700}
+.timeline-company{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-top:.3rem;font-weight:500}
+.timeline-period{font-size:.8rem;color:var(--text-muted);margin-top:.3rem}
+.timeline-desc{color:var(--text-dim);font-weight:300;line-height:1.7;margin-top:1rem;font-size:.95rem}
+
+.contact{text-align:center;position:relative}
+.contact-big{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;line-height:1;margin-bottom:1.5rem;letter-spacing:-.02em}
+.contact-big .accent{color:var(--accent)}
+.contact-sub{color:var(--text-dim);font-weight:300;font-size:1.1rem;margin-bottom:3rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7}
+.contact-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
+.contact-link{display:flex;align-items:center;gap:.8rem;padding:1rem 2rem;border:1px solid var(--border);border-radius:4px;transition:all .3s;font-size:.85rem;letter-spacing:.1em}
+.contact-link:hover{border-color:var(--accent);background:rgba(230,57,70,.05);transform:translateY(-2px)}
+.contact-link .link-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted)}
+.contact-link .link-value{color:var(--text)}
+
+footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
+footer p{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
+footer b{color:var(--accent);font-weight:400}
+
+.reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.work-category.active .reveal{opacity:1;transform:translateY(0)}
+
+@media(max-width:1024px){
+.about-grid{grid-template-columns:1fr;gap:3rem}
+.skills-layout{grid-template-columns:1fr 1fr}
+.work-card{grid-template-columns:1fr}
+.branding-card{grid-template-columns:1fr}
+.work-img-wrap{min-height:240px}
+.achieve-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+nav{padding:1rem 1.5rem}
+.nav-links{display:none}
+section{padding:5rem 1.5rem}
+.hero{min-height:100svh;padding:2rem 1.2rem;justify-content:center}
+.skills-layout{grid-template-columns:1fr}
+.achieve-grid{grid-template-columns:1fr}
+.about-stats{grid-template-columns:1fr}
+.about-photo{display:none}
+.contact-links{flex-direction:column;align-items:center}
+.hero-title{font-size:clamp(6.8rem,30vw,12.4rem)}
+.hero-badge{display:none}
+.hero-badge span{display:block}
+.hero-badge span+span::before{content:''}
+.hero-scroll{display:none}
+.work-tabs{flex-wrap:wrap;gap:.6rem}
+.work-tab{flex:1 1 calc(50% - .6rem);text-align:center;padding:.55rem .8rem;font-size:.68rem;letter-spacing:.08em}
+.work-content{padding:1.5rem}
+.work-name{font-size:1.35rem}
+.work-desc{font-size:.9rem;line-height:1.6}
+.modal-overlay{padding:1rem}
+.modal-content img{max-width:92vw;max-height:80vh}
+.modal-overlay.website-large .modal-content img{width:96vw;max-width:96vw}
+.modal-close{top:1rem;right:1rem}
+.contact-link{width:100%;max-width:340px;justify-content:center}
+}
+
+.work-tabs{display:flex;gap:1rem;margin-bottom:2.5rem}
+.work-tab{font-size:.75rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:.6rem 1.4rem;border:1px solid var(--border);border-radius:2px;color:var(--text-muted);cursor:pointer;transition:all .3s;background:none}
+.work-tab:hover{border-color:var(--accent);color:var(--text)}
+.work-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(230,57,70,.05)}
+.work-img-wrap{cursor:pointer;position:relative}
+.work-img-wrap::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .3s}
+.work-img-wrap:hover::after{background:rgba(0,0,0,.15)}
+.work-zoom{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;z-index:2;color:#fff;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:.5rem 1rem;border:1px solid rgba(255,255,255,.5);border-radius:2px;transition:opacity .3s;pointer-events:none;backdrop-filter:blur(4px);background:rgba(0,0,0,.3)}
+.work-img-wrap:hover .work-zoom{opacity:1}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);overflow-y:auto;cursor:pointer;padding:2rem}
+.modal-overlay.open{display:flex;justify-content:center;align-items:flex-start}
+.modal-content{max-width:100%;width:100%;position:relative;cursor:default;display:flex;justify-content:center}
+.modal-content img{width:auto;max-width:70vw;max-height:70vh;height:auto;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal-overlay.website-large .modal-content img{width:92vw;max-width:92vw;max-height:none;height:auto}
+.modal-close{position:fixed;top:1.5rem;right:2rem;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.5);color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:1001;transition:all .3s;backdrop-filter:blur(4px)}
+.modal-close:hover{border-color:var(--accent);color:var(--accent)}
+.work-category{display:none}
+.work-category.active{display:flex;flex-direction:column;gap:3rem}
+.coming-soon{text-align:center;padding:5rem 2rem;border:1px dashed var(--border);border-radius:6px}
+.coming-soon h3{font-size:1.3rem;font-weight:600;margin-bottom:.5rem}
+.coming-soon p{color:var(--text-muted);font-weight:300}
+.brand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+
+.brand-img-wrap{background:#f0f0f2}
+.brand-img{object-fit:contain !important;padding:2rem}
+.branding-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.brand-card{border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:all .4s;background:#f0f1f3;min-height:220px;display:flex;align-items:center;justify-content:center}
+.brand-card:hover{border-color:rgba(230,57,70,.4);transform:translateY(-4px)}
+.brand-card img{width:100%;height:auto;max-height:200px;object-fit:contain;display:block}
+@media(max-width:768px){.branding-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body id="top">
+
+<nav>
+<a class="nav-logo" href="#top">REN<b>.</b></a>
+<div class="nav-links">
+<a href="#about">About</a>
+<a href="#work">Work</a>
+<a href="#skills">Skills</a>
+<a href="#experience">Experience</a>
+<a class="nav-cta" href="#contact">Get in Touch</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-badge">
+UI/UX Designer &nbsp; &#183;
+&nbsp; Vibe Coder &nbsp; &#183;
+&nbsp; Graphic Designer
+</div>
+<h1 class="hero-title">
+<span class="line">PORT</span>
+<span class="line">FOL<span class="accent">IO</span></span>
+</h1>
+<div class="hero-scroll">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg><span>Scroll</span>
+<div class="scroll-line"></div>
+</div>
+</section>
+
+<section id="about">
+<div class="container reveal">
+<div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> About Me</div>
+<div class="about-grid">
+<div>
+<div class="about-text">
+<p>I am Renato Urot Jr., a Senior UI/UX Designer with 10+ years designing scalable digital products across print, web and mobile. Specialized in user-centered design, product strategy, and high-conversion interfaces.</p>
+<p>Proven track record collaborating with cross-functional teams to deliver intuitive, accessible, and visually refined experiences across diverse SaaS products in financial, recruitment, and logistics domains.</p>
+</div>
+<blockquote class="about-quote">"Design is not just what it looks like and feels like -- design is how it works."</blockquote>
+</div>
+<div class="about-photo">
+    <img src="img/ren.png">
+</div>
+</div>
+</div>
+</section>
+
+<section id="work" style="background:var(--dark)">
+<div class="container">
+<div class="reveal">
+<div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg> Selected Work</div>
+<h2 class="section-title">Projects <span class="dim">I'm proud of.</span></h2>
+<div class="work-tabs">
+<div class="work-tab active" data-tab="websites">Website Design</div>
+<div class="work-tab" data-tab="apps">Web/Mobile Application</div>
+<div class="work-tab" data-tab="branding">Branding</div>
+</div>
+</div>
+<div class="work-category active" id="cat-websites">
+<div class="work-card reveal">
+    <div class="work-img-wrap"><img class="work-img" src="img/hani.jpg" data-full="img/full_hani.jpg">
+        <div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+<div class="work-role">UI/UX Designer / Front-End Developer</div>
+<h3 class="work-name">Hani Farah Realtor</h3>
+<div class="work-desc">Designed and developed a full real estate website featuring property search, recent and featured listings, mortgage approval flow, and a responsive layout optimized for buyers and sellers.</div>
+<div class="work-tools"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive Design</span></div>
+<a class="work-link" href="https://ren-urot.github.io/HaniRealtors/" target="_blank">View on GitHub <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</div>
+</div>
+<div class="work-card reveal">
+    <div class="work-img-wrap"><img class="work-img" src="img/sundance.jpg" data-full="img/full_sundance.png">
+        <div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+<div class="work-role">UI/UX Designer / Front-End Developer</div>
+<h3 class="work-name">Sundance Mall Directory</h3>
+<div class="work-desc">Designed and developed a mall directory website featuring store listings, department navigation, promotional deals, and an interactive store map with a clean, modern layout.</div>
+<div class="work-tools"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive Design</span></div>
+<a class="work-link" href="https://ren-urot.github.io/Sundance/" target="_blank">View on GitHub <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</div>
+</div>
+<div class="work-card reveal">
+<div class="work-img-wrap"><img class="work-img" src="img/nexxbyte.jpg" data-full="img/full_nexxbyte.png">
+    <div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+<div class="work-role">UI/UX Designer / Front-End Developer</div>
+<h3 class="work-name">NexxByte CRM Solutions</h3>
+<div class="work-desc">Designed and developed a modern CRM software landing page featuring tailored business solutions, streamlined workflows, and a conversion-focused layout with bold visual storytelling.</div>
+<div class="work-tools"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive Design</span></div>
+<a class="work-link" href="http://nexxabyte.com/" target="_blank">View Website <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</div>
+</div>
+</div>
+<div class="work-category" id="cat-apps">
+<div class="work-card reveal">
+<div class="work-img-wrap"><img class="work-img" src="img/crm.jpg" data-full="img/full_crm.png">
+<div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+<div class="work-role">UI/UX Designer / Front-End Developer</div>
+<h3 class="work-name">NexxByte Flower Shop CRM</h3>
+<div class="work-desc">Designed and developed a full-featured CRM dashboard for flower shops, featuring customer management, lead tracking, order recording, point of sale, inventory, deliveries, and real-time activity monitoring with a clean, intuitive interface.</div>
+<div class="work-tools"><span>React</span><span>Tailwind CSS</span><span>UI/UX Design</span><span>Dashboard</span></div>
+<a class="work-link" href="http://nexxabyte.com/crm/dashboard" target="_blank">View Live App <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</div>
+</div>
+</div>
+<div class="work-category" id="cat-branding">
+<div class="branding-card reveal">
+<div class="work-img-wrap"><img class="work-img" src="img/logo2.jpg" alt="Electrical Exam Seminars">
+    <div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+    <div class="work-role">Brand Identity / Logo Design</div>
+    <h3 class="work-name">Electrical Exam Seminars</h3>
+    <div class="work-desc">Developed a bold academic brand mark and visual direction for an electrical review program, focused on credibility, clarity, and strong recall across social posts, print materials, and seminar handouts.</div>
+    <div class="work-tools"><span>Brand Strategy</span><span>Logo Design</span><span>Typography</span><span>Visual Identity</span></div>
+</div>
+</div>
+<div class="branding-card reveal">
+<div class="work-img-wrap"><img class="work-img" src="img/logo3.jpg" alt="Everson Dental">
+<div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+    <div class="work-role">Brand Identity / Logo Design</div>
+    <h3 class="work-name">Everson Dental</h3>
+    <div class="work-desc">Created a clean, modern dental clinic identity system with a friendly professional tone, designed to build patient trust and maintain consistency across clinic signage, appointment cards, and digital channels.</div>
+    <div class="work-tools"><span>Logo Design</span><span>Brand Guidelines</span><span>Color System</span><span>Print Collateral</span></div>
+</div>
+</div>
+<div class="branding-card reveal">
+<div class="work-img-wrap"><img class="work-img" src="img/logo7.jpg" alt="Snap Dolphin">
+    <div class="work-zoom">View Full Page</div></div>
+<div class="work-content">
+    <div class="work-role">Brand Identity / Logo Design</div>
+    <h3 class="work-name">Snap Dolphin</h3>
+    <div class="work-desc">Designed a playful but scalable logo concept for a digital-first brand, balancing personality and simplicity so the mark remains clear and recognizable from app icons to marketing assets.</div>
+    <div class="work-tools"><span>Logo Exploration</span><span>Icon Design</span><span>Brand System</span><span>Digital Branding</span></div>
+</div>
+</div>
+</section>
+
+<section id="skills">
+<div class="container reveal">
+<div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg> Capabilities</div>
+<h2 class="section-title">What I <span class="dim">bring to the table.</span></h2>
+<div class="skills-layout">
+<div class="skill-group">
+<div class="skill-group-title">Core Skills</div>
+<div class="skill-item">UI/UX Design and Product Design</div>
+<div class="skill-item">Design Systems and Component Libraries</div>
+<div class="skill-item">User Research and Usability Testing</div>
+<div class="skill-item">Wireframing and Prototyping</div>
+<div class="skill-item">Interaction and Visual Design</div>
+<div class="skill-item">HTML / CSS / Tailwind Basics</div>
+<div class="skill-item">Accessibility (WCAG)</div>
+<div class="skill-item">Agile / Scrum Collaboration</div>
+</div>
+<div class="skill-group">
+<div class="skill-group-title">Tools</div>
+<div class="skill-item tool-row"><span>Figma</span><span class="stars">★★★★★</span></div>
+<div class="skill-item tool-row"><span>Sketch</span><span class="stars">★★★★★</span></div>
+<div class="skill-item tool-row"><span>Adobe XD</span><span class="stars">★★★★★</span></div>
+<div class="skill-item tool-row"><span>Illustrator</span><span class="stars">★★★★★</span></div>
+<div class="skill-item tool-row"><span>Photoshop</span><span class="stars">★★★★★</span></div>
+<div class="skill-item tool-row"><span>InDesign</span><span class="stars">★★★★★</span></div>
+<div class="skill-item tool-row"><span>Zeplin</span><span class="stars">★★★★☆</span></div>
+<div class="skill-item tool-row"><span>Claude Code</span><span class="stars">★★★★☆</span></div>
+<div class="skill-item tool-row"><span>Figma Make</span><span class="stars">★★★★☆</span></div>
+</div>
+<div class="skill-group">
+<div class="skill-group-title">Soft Skills</div>
+<div class="skill-item">Leadership</div>
+<div class="skill-item">Communication</div>
+<div class="skill-item">Critical Thinking</div>
+<div class="skill-item">Collaboration</div>
+<div class="skill-item">Problem Solving</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="achievements">
+<div class="container reveal">
+<div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> Key Achievements</div>
+<h2 class="section-title">Impact <span class="dim">I've made.</span></h2>
+<div class="achieve-grid">
+<div class="achieve-card">
+<div class="achieve-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></div>
+<div class="achieve-name">Cross-Platform Leadership</div>
+<div class="achieve-desc">Led end-to-end design for multiple cross-platform projects across diverse SaaS products in financial, recruitment, and logistics domains.</div>
+</div>
+<div class="achieve-card">
+<div class="achieve-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5 9 12l-3.5 3.5L2 12l3.5-3.5Z"/><path d="m12 2 3.5 3.5L12 9 8.5 5.5 12 2Z"/><path d="M18.5 8.5 22 12l-3.5 3.5L15 12l3.5-3.5Z"/><path d="m12 15 3.5 3.5L12 22l-3.5-3.5L12 15Z"/></svg></div>
+<div class="achieve-name">Scalable Design Systems</div>
+<div class="achieve-desc">Established scalable design systems that standardized UI components (MUI, Shadcn UI) across projects, significantly reducing design and development turnaround time.</div>
+</div>
+<div class="achieve-card">
+<div class="achieve-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V8"/><path d="M11 16V4"/><path d="M15 16v-5"/><path d="M19 16v-2"/></svg></div>
+<div class="achieve-name">Research-Driven Results</div>
+<div class="achieve-desc">Conducted usability research and iterative testing that improved customer journeys and increased successful purchase rates on e-commerce platforms.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="experience">
+<div class="container reveal">
+<div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Experience</div>
+<h2 class="section-title">Where I've <span class="dim">been.</span></h2>
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-role">Senior UI/UX Designer</div>
+<div class="timeline-company">Sprobe Inc.</div>
+<div class="timeline-period">December 2021 -- Present, Cebu City</div>
+<div class="timeline-desc">Designed client-facing web and mobile applications across industries. Translated complex technical requirements into intuitive interfaces. Delivered wireframes, user flows, and interactive prototypes. Collaborated daily with developers in Agile sprints.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Senior UI/UX Designer</div>
+<div class="timeline-company">SmartGroup Global</div>
+<div class="timeline-period">July 2017 -- April 2020, Cebu City</div>
+<div class="timeline-desc">Designed conversion-focused storefronts for multiple retail brands. Created wireframes and prototypes for product pages. Improved UX for cross-device shopping experiences and developed reusable e-commerce design templates.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Lead UI/UX / Graphic Designer</div>
+<div class="timeline-company">Eko-Pay Inc.</div>
+<div class="timeline-period">April 2016 -- June 2017, Cebu City</div>
+<div class="timeline-desc">Designed client-facing web and mobile applications. Established reusable component libraries and delivered high-fidelity prototypes. Mentored junior designers and standardized design workflows.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Lead UI/UX / Graphic Designer</div>
+<div class="timeline-company">Odusee Philippines</div>
+<div class="timeline-period">March 2015 -- December 2015, Cebu City</div>
+<div class="timeline-desc">Led design of print, website and web app interfaces. Developed brand identities and visual systems for client campaigns. Standardized layout systems for repeatable, scalable print production.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Freelance UI/UX / Web / Graphic Designer</div>
+<div class="timeline-company">oDesk (Upwork)</div>
+<div class="timeline-period">December 2012 -- February 2015, Cebu City</div>
+<div class="timeline-desc">Designed UI/UX, websites, web and mobile app interfaces, and print projects for international clients across diverse industries.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Lead UI/Web/Graphic Designer</div>
+<div class="timeline-company">Beyong Building Energy</div>
+<div class="timeline-period">May 2011 -- November 2012, Cebu City</div>
+<div class="timeline-desc">Designed marketing websites across industries. Created marketing collateral and mentored junior designers on standardized design workflows.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Project Based Graphic Designer</div>
+<div class="timeline-company">Digital Design</div>
+<div class="timeline-period">February 2010 -- March 2010, Grand Cayman</div>
+<div class="timeline-desc">Designed large format print marketing materials for clients in the Cayman Islands.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Lead Web/Graphic Designer</div>
+<div class="timeline-company">Cayman Net News / MCM Consultants</div>
+<div class="timeline-period">September 2006 -- January 2010, Grand Cayman</div>
+<div class="timeline-desc">Designed marketing websites across industries. Created marketing collateral and mentored junior designers on standardized design workflows.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-role">Graphic/Web Designer</div>
+<div class="timeline-company">Elite Visual Advertising</div>
+<div class="timeline-period">March 2006 -- September 2006, Grand Cayman</div>
+<div class="timeline-desc">Conceptualized and designed various print and web projects. Prepared mechanical files for offset printing process.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="contact" class="contact" style="background:var(--dark)">
+<div class="container reveal">
+<div class="section-label" style="justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Get in Touch</div>
+<h2 class="contact-big">Let's build<br>something <span class="accent">great.</span></h2>
+<p class="contact-sub">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+<div class="contact-links">
+<a class="contact-link" id="email-link">
+<div>
+<div class="link-label"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email</div>
+<div class="link-value" id="email-text"></div>
+</div>
+</a>
+<a class="contact-link" href="https://linkedin.com/in/yourname" target="_blank">
+<div>
+<div class="link-label"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</div>
+<div class="link-value">linkedin.com/in/yourname</div>
+</div>
+</a>
+<a class="contact-link" href="https://www.behance.net/renatourotdesign" target="_blank">
+<div>
+<div class="link-label"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Behance</div>
+<div class="link-value">behance.net/renatourotdesign</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+
+<footer>
+<p>2026 <b>Ren</b>. All rights reserved.</p>
+</footer>
+
+<div class="modal-overlay" id="fullpage-modal">
+<button class="modal-close" id="modal-close">&times;</button>
+<div class="modal-content">
+<img id="modal-img" src="" alt="Full page preview">
+</div>
+</div>
+
+<script>
+(function(){
+var u='renatourotjr';var d='gmail';var t='com';
+var full=u+String.fromCharCode(64)+d+'.'+t;
+var el=document.getElementById('email-text');
+var lk=document.getElementById('email-link');
+if(el)el.textContent=full;
+if(lk)lk.href='mai'+'lto:'+full;
+})();
+
+var reveals=document.querySelectorAll('.reveal');
+var observer=new IntersectionObserver(function(entries){
+entries.forEach(function(e){
+if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}
+});
+},{threshold:0.15});
+reveals.forEach(function(el){observer.observe(el);});
+
+// If a tab/category is already active on load, ensure its content shows.
+var initialActive=document.querySelector('.work-category.active');
+if(initialActive){
+initialActive.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible');});
+}
+
+var nav=document.querySelector('nav');
+window.addEventListener('scroll',function(){
+nav.style.padding=window.scrollY>80?'1rem 2.5rem':'1.5rem 2.5rem';
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(function(link){
+link.addEventListener('click',function(e){
+var href=link.getAttribute('href');
+if(href&&href.length>1){
+e.preventDefault();
+var target=document.querySelector(href);
+if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+});
+});
+
+// Update only the first website card image to a short local path.
+(function(){
+var firstWorkImg=document.querySelector('#cat-websites .work-card .work-img-wrap .work-img');
+if(firstWorkImg&&firstWorkImg.getAttribute('src')&&firstWorkImg.getAttribute('src').indexOf('data:image')===0){
+firstWorkImg.src='img/ren.png';
+}
+})();
+
+// Tab switching
+document.querySelectorAll('.work-tab').forEach(function(tab){
+tab.addEventListener('click',function(){
+document.querySelectorAll('.work-tab').forEach(function(t){t.classList.remove('active');});
+tab.classList.add('active');
+var cat=tab.getAttribute('data-tab');
+document.querySelectorAll('.work-category').forEach(function(c){c.classList.remove('active');});
+var activeCat=document.getElementById('cat-'+cat);
+if(activeCat){
+activeCat.classList.add('active');
+activeCat.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible');});
+}
+});
+});
+
+// Full page modal
+var modal=document.getElementById('fullpage-modal');
+var modalImg=document.getElementById('modal-img');
+var modalClose=document.getElementById('modal-close');
+
+document.querySelectorAll('.work-img-wrap').forEach(function(wrap){
+wrap.addEventListener('click',function(){
+modal.classList.remove('website-large');
+if(wrap.closest('#cat-websites')){modal.classList.add('website-large');}
+var img=wrap.querySelector('img[data-full]');
+var brandData=wrap.getAttribute('data-brand');
+if(img){
+modalImg.src=img.getAttribute('data-full');
+modal.classList.add('open');
+document.body.style.overflow='hidden';
+} else if(brandData){
+modalImg.src=brandData;
+modal.classList.add('open');
+document.body.style.overflow='hidden';
+} else {
+var fallbackImg=wrap.querySelector('img');
+if(fallbackImg&&fallbackImg.getAttribute('src')){
+modalImg.src=fallbackImg.getAttribute('src');
+modal.classList.add('open');
+document.body.style.overflow='hidden';
+}
+}
+});
+});
+
+modalClose.addEventListener('click',function(e){
+e.stopPropagation();
+modal.classList.remove('open');
+modal.classList.remove('website-large');
+document.body.style.overflow='';
+});
+
+modal.addEventListener('click',function(e){
+if(e.target===modal){
+modal.classList.remove('open');
+modal.classList.remove('website-large');
+document.body.style.overflow='';
+}
+});
+</script>
+</body>
+</html>
