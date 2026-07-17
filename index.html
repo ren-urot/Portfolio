@@ -197,7 +197,8 @@ section{padding:5rem 1.5rem}
 .work-img-wrap:hover::after{background:rgba(0,0,0,.15)}
 .work-zoom{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;z-index:2;color:#fff;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:.5rem 1rem;border:1px solid rgba(255,255,255,.5);border-radius:2px;transition:opacity .3s;pointer-events:none;backdrop-filter:blur(4px);background:rgba(0,0,0,.3)}
 .work-img-wrap:hover .work-zoom{opacity:1}
-.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);overflow-y:auto;cursor:pointer;padding:2rem}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);overflow-y:auto;cursor:pointer;padding:2rem;scrollbar-width:none;-ms-overflow-style:none}
+.modal-overlay::-webkit-scrollbar{display:none}
 .modal-overlay.open{display:flex;justify-content:center;align-items:flex-start}
 .modal-content{max-width:100%;width:100%;position:relative;cursor:default;display:flex;justify-content:center}
 .modal-content img{width:auto;max-width:70vw;max-height:70vh;height:auto;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
