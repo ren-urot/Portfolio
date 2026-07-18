@@ -84,10 +84,8 @@ section{padding:7rem 2rem}
 .branding-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:all .4s;position:relative}
 .work-card:hover{border-color:rgba(230,57,70,.4);transform:translateY(-4px)}
 .branding-card:hover{border-color:rgba(230,57,70,.4);transform:translateY(-4px)}
-.work-img-wrap{overflow:hidden;position:relative;background:var(--card)}
-.work-img{width:100%;height:auto;display:block}
-#cat-mobile .work-img-wrap{min-height:340px}
-#cat-mobile .work-img{height:100%;object-fit:cover;object-position:top}
+.work-img-wrap{overflow:hidden;position:relative;background:var(--card);height:340px;align-self:start}
+.work-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .work-card:hover .work-img{}
 .work-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--card) 0%,#1a1a1a 100%);position:relative;overflow:hidden}
 .work-placeholder::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:var(--accent-glow);top:50%;left:50%;transform:translate(-50%,-50%)}
@@ -158,7 +156,7 @@ footer b{color:var(--accent);font-weight:400}
 .skills-layout{grid-template-columns:1fr 1fr}
 .work-card{grid-template-columns:1fr}
 .branding-card{grid-template-columns:1fr}
-.work-img-wrap{min-height:240px}
+.work-img-wrap{height:240px}
 .achieve-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:768px){
@@ -344,7 +342,7 @@ UI/UX Designer &nbsp; &#183;
 </div>
 </div>
 <div class="work-card reveal">
-<div class="work-img-wrap"><img class="work-img" src="img/crm.jpg" data-full="img/full_crm.png">
+<div class="work-img-wrap" data-modal="scale-100"><img class="work-img" src="img/crm.jpg" data-full="img/full_crm.png">
 <div class="work-zoom">View Full Page</div></div>
 <div class="work-content">
 <div class="work-role">UI/UX Designer / Front-End Developer</div>
@@ -355,7 +353,7 @@ UI/UX Designer &nbsp; &#183;
 </div>
 </div>
 <div class="work-card reveal">
-<div class="work-img-wrap"><img class="work-img" src="img/cpdcheck.jpg" data-full="img/full_cpdcheck.jpg">
+<div class="work-img-wrap" data-modal="scale-100"><img class="work-img" src="img/cpdcheck.jpg" data-full="img/full_cpdcheck.jpg">
 <div class="work-zoom">View Full Page</div></div>
 <div class="work-content">
 <div class="work-role">UI/UX Designer / Front-End Developer</div>
@@ -366,7 +364,7 @@ UI/UX Designer &nbsp; &#183;
 </div>
 </div>
 <div class="work-card reveal">
-<div class="work-img-wrap"><img class="work-img" src="img/crypto.jpg" data-full="img/full_crypto.png">
+<div class="work-img-wrap" data-modal="scale-100"><img class="work-img" src="img/crypto.jpg" data-full="img/full_crypto.png">
 <div class="work-zoom">View Full Page</div></div>
 <div class="work-content">
 <div class="work-role">UI/UX Designer / Front-End Developer</div>
